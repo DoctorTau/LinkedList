@@ -37,6 +37,8 @@ public:
             tail->next = tmp;
             tail = tail->next;
         }
+        tmp = NULL;
+        delete tmp;
     }
     void print()
     {
@@ -51,6 +53,8 @@ public:
         else {
             cout << "EMPTY";
         }
+        tmp = NULL;
+        delete tmp;
     }
     int len() {
         int k = 1;
@@ -66,6 +70,8 @@ public:
         else {
             return 0;
         }
+        tmp = NULL;
+        delete tmp;
     }
 };
 
