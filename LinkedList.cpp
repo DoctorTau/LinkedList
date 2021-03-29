@@ -130,7 +130,7 @@ public:
         delete tmp;
     }
 
-    const Node<T>* operator[](int ind) {
+    const Node<T> operator[](int ind) {
         if (head == NULL) {
             cout << "ERROR" << endl;
         }
@@ -141,7 +141,7 @@ public:
                 tmp = tmp->next;
                 k++;
             }
-            return tmp;
+            return *tmp;
         }
     }
 };
@@ -153,7 +153,7 @@ int main() {
     a.append(3);
     a.insert(5, 1);
     a.print();
-    cout << *a[2] << endl;
+    cout << a[2] << endl;
     a.print();
     return 0;
 }
