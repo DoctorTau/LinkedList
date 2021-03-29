@@ -27,7 +27,7 @@ public:
         tmp->data = n;
         tmp->next = NULL;
 
-        if ( head == NULL )
+        if (head == NULL)
         {
             head = tmp;
             tail = tmp;
@@ -40,12 +40,41 @@ public:
         tmp = NULL;
         delete tmp;
     }
+    insert(T n, int ind) {
+        ind--;
+        if (ind > this->len()) {
+            cout << "ERROR" << endl;
+        }
+
+        else if (ind == 0) {
+            Node<T>* new_elem = new Node<T>;
+            new_elem->data = n;
+            new_elem->next = head;
+            head = new_elem;
+            new_elem = NULL;
+            delete new_elem;
+        }
+
+        else {
+            Node<T>* tmp = new Node<T>;
+            tmp = head;
+            for (int i = 1; i < ind; i++) {
+                tmp = tmp->next;
+            }
+            Node<T>* new_elem = new Node<T>;
+            new_elem->data = n;
+            new_elem->next = tmp->next;
+            tmp->next = new_elem;
+            tmp = NULL; new_elem = NULL;
+            delete tmp; delete new_elem;
+        }
+    }
     void print()
     {
         Node<T>* tmp = new Node<T>;
         tmp = head;
-        if ( head != NULL ) {
-            while ( tmp != tail->next ) {
+        if (head != NULL) {
+            while (tmp != tail->next) {
                 cout << tmp->data << ' ';
                 tmp = tmp->next;
             }
@@ -60,12 +89,12 @@ public:
         int k = 1;
         Node<T>* tmp = new Node<T>;
         tmp = head;
-        if ( tmp != NULL ) {
-            while ( tmp != tail ) {
+        if (tmp != NULL) {
+            while (tmp != tail) {
                 tmp = tmp->next;
                 k++;
             }
-            return ( k );
+            return (k);
         }
         else {
             return 0;
@@ -80,6 +109,7 @@ int main() {
     a.append(1);
     a.append(2);
     a.append(3);
-    cout << a.len();
+    a.insert(5, 1);
+    a.print();
     return 0;
 }
