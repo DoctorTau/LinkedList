@@ -10,6 +10,13 @@ template<typename T>
 struct Node {
     T data;
     struct Node* next;
+
+    friend ostream& operator<<(ostream& os, const Node<T>& obj) {
+        os << obj.data;
+        //cout << this->data << endl;
+        return os;
+    }
+
 };
 
 template<typename T>
@@ -27,7 +34,7 @@ public:
         tmp->data = n;
         tmp->next = NULL;
 
-        if ( head == NULL )
+        if (head == NULL)
         {
             head = tmp;
             tail = tmp;
@@ -40,13 +47,13 @@ public:
         tmp = NULL;
         delete tmp;
     }
-    insert(T n, int ind) {
+    void insert(T n, int ind) {
         ind--;
-        if ( ind > this->len() ) {
+        if (ind > this->len()) {
             cout << "ERROR" << endl;
         }
 
-        else if ( ind == 0 ) {
+        else if (ind == 0) {
             Node<T>* new_elem = new Node<T>;
             new_elem->data = n;
             new_elem->next = head;
@@ -58,7 +65,7 @@ public:
         else {
             Node<T>* tmp = new Node<T>;
             tmp = head;
-            for ( int i = 1; i < ind; i++ ) {
+            for (int i = 1; i < ind; i++) {
                 tmp = tmp->next;
             }
             Node<T>* new_elem = new Node<T>;
@@ -73,11 +80,12 @@ public:
     {
         Node<T>* tmp = new Node<T>;
         tmp = head;
-        if ( head != NULL ) {
-            while ( tmp != tail->next ) {
+        if (head != NULL) {
+            while (tmp != tail->next) {
                 cout << tmp->data << ' ';
                 tmp = tmp->next;
             }
+            cout << endl;
         }
         else {
             cout << "EMPTY";
@@ -89,12 +97,12 @@ public:
         int k = 1;
         Node<T>* tmp = new Node<T>;
         tmp = head;
-        if ( tmp != NULL ) {
-            while ( tmp != tail ) {
+        if (tmp != NULL) {
+            while (tmp != tail) {
                 tmp = tmp->next;
                 k++;
             }
-            return ( k );
+            return (k);
         }
         else {
             return 0;
@@ -104,14 +112,14 @@ public:
     }
     void pop()
     {
-        Node<T>* tmp = new Node;
+        Node<T>* tmp = new Node<T>;
         tmp = head;
-        if ( head != NULL ) {
-            if ( head->next == NULL ) {
+        if (head != NULL) {
+            if (head->next == NULL) {
                 head = NULL;
             }
             else {
-                while ( ( tmp->next != tail ) && ( tmp != tail ) ) {
+                while ((tmp->next != tail) && (tmp != tail)) {
                     tmp = tmp->next;
                 }
                 tmp->next = NULL;
@@ -121,6 +129,21 @@ public:
         tmp = NULL;
         delete tmp;
     }
+
+    const Node<T>* operator[](int ind) {
+        if (head == NULL) {
+            cout << "ERROR" << endl;
+        }
+        else {
+            int k = 0;
+            Node<T>* tmp = head;
+            while (k != ind) {
+                tmp = tmp->next;
+                k++;
+            }
+            return tmp;
+        }
+    }
 };
 
 int main() {
@@ -129,6 +152,8 @@ int main() {
     a.append(2);
     a.append(3);
     a.insert(5, 1);
+    a.print();
+    cout << *a[2] << endl;
     a.print();
     return 0;
 }
