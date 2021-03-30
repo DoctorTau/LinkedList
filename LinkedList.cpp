@@ -42,7 +42,7 @@ public:
         tmp->data = n;
         tmp->next = NULL;
 
-        if ( head == NULL )
+        if (head == NULL)
         {
             head = tmp;
             tail = tmp;
@@ -55,12 +55,17 @@ public:
         tmp = NULL;
         delete tmp;
     }
+    void append(T arr[]) {
+        for (int i = 0; i < sizeof(*arr) - 1; i++) {
+            this->append(arr[i]);
+        }
+    }
     void insert(T n, int ind) {
-        if ( ind > this->len() ) {
+        if (ind > this->len()) {
             cout << "ERROR" << endl;
         }
 
-        else if ( ind == 0 ) {
+        else if (ind == 0) {
             Node<T>* new_elem = new Node<T>;
             new_elem->data = n;
             new_elem->next = head;
@@ -72,7 +77,7 @@ public:
         else {
             Node<T>* tmp = new Node<T>;
             tmp = head;
-            for ( int i = 1; i < ind; i++ ) {
+            for (int i = 1; i < ind; i++) {
                 tmp = tmp->next;
             }
             Node<T>* new_elem = new Node<T>;
@@ -87,8 +92,8 @@ public:
     {
         Node<T>* tmp = new Node<T>;
         tmp = head;
-        if ( head != NULL ) {
-            while ( tmp != tail->next ) {
+        if (head != NULL) {
+            while (tmp != tail->next) {
                 cout << tmp->data << ' ';
                 tmp = tmp->next;
             }
@@ -104,12 +109,12 @@ public:
         int k = 1;
         Node<T>* tmp = new Node<T>;
         tmp = head;
-        if ( tmp != NULL ) {
-            while ( tmp != tail ) {
+        if (tmp != NULL) {
+            while (tmp != tail) {
                 tmp = tmp->next;
                 k++;
             }
-            return ( k );
+            return (k);
         }
         else {
             return 0;
@@ -121,12 +126,12 @@ public:
     {
         Node<T>* tmp = new Node<T>;
         tmp = head;
-        if ( head != NULL ) {
-            if ( head->next == NULL ) {
+        if (head != NULL) {
+            if (head->next == NULL) {
                 head = NULL;
             }
             else {
-                while ( ( tmp->next != tail ) && ( tmp != tail ) ) {
+                while ((tmp->next != tail) && (tmp != tail)) {
                     tmp = tmp->next;
                 }
                 tmp->next = NULL;
@@ -138,15 +143,15 @@ public:
     }
 
     void erase(int ind) {
-        if ( ind > this->len() ) {
+        if (ind > this->len()) {
             cout << "ERROR" << endl;
         }
-        else if ( ind == 0 ) {
+        else if (ind == 0) {
             head = head->next;
         }
         else {
             Node<T>* tmp = head;
-            for ( int i = 0; i < ind - 1; i++ ) {
+            for (int i = 0; i < ind - 1; i++) {
                 tmp = tmp->next;
             }
             tmp->next = tmp->next->next;
@@ -154,7 +159,7 @@ public:
     }
 
     void change_elem(T new_value, int ind) {
-        if ( ind > this->len() ) {
+        if (ind > this->len()) {
             cout << "ERROR" << endl;
         }
         else {
@@ -164,17 +169,17 @@ public:
     }
 
     void bubble_sort() {
-        if ( head != NULL ) {
-            if ( head->next != NULL ) {
+        if (head != NULL) {
+            if (head->next != NULL) {
                 Node<T>* tmp = new Node<T>;
                 Node<T>* next_node = new Node<T>;
                 tmp = head;
                 next_node = tmp->next;
                 bool flag = false;
-                while ( !flag ) {
+                while (!flag) {
                     flag = true;
-                    while ( tmp != tail ) {
-                        if ( tmp->data > tmp->next->data ) {
+                    while (tmp != tail) {
+                        if (tmp->data > tmp->next->data) {
                             T n = tmp->data;
                             tmp->data = tmp->next->data;
                             tmp->next->data = n;
@@ -192,13 +197,13 @@ public:
     }
 
     const Node<T> operator[](int ind) {
-        if ( head == NULL ) {
+        if (head == NULL) {
             cout << "ERROR" << endl;
         }
         else {
             int k = 0;
             Node<T>* tmp = head;
-            while ( k != ind ) {
+            while (k != ind) {
                 tmp = tmp->next;
                 k++;
             }
@@ -210,9 +215,11 @@ public:
 
 int main() {
     list<int> a;
-    a.append(1);
-    a.append(2);
-    a.append(1);
+    a.append(6);
+    a.append(7);
+    a.append(8);
+    int arr[3] = { 1, 2, 3 };
+    a.append(arr);
 
 
     a.print();
