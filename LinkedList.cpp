@@ -163,6 +163,10 @@ public:
         }
     }
 
+    void change_elem_by_fedor(T new_value, int ind) {
+        Node<T>* tmp = new Node<T>;
+    }
+
     void bubble_sort() {
         if ( head != NULL ) {
             if ( head->next != NULL ) {
@@ -191,9 +195,9 @@ public:
         }
     }
 
-    const Node<T> operator[](int ind) {
-        if ( head == NULL ) {
-            cout << "ERROR" << endl;
+    T operator[](int ind) {
+        if ( head == NULL || ind < 0 ) {
+            throw runtime_error("index out of range");
         }
         else {
             int k = 0;
@@ -202,8 +206,9 @@ public:
                 tmp = tmp->next;
                 k++;
             }
-            return *tmp;
+            return tmp->data;
         }
+
     }
 
 };
@@ -212,13 +217,11 @@ int main() {
     list<int> a;
     a.append(1);
     a.append(2);
-    a.append(1);
+    a.append(3);
 
 
     a.print();
-
-
-    a.bubble_sort();
+    cout << a[-1] << endl;
     a.print();
     return 0;
 }
