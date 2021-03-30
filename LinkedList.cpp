@@ -153,7 +153,7 @@ public:
         }
     }
 
-    void change_elem(int ind, T new_value) {
+    void change_elem(T new_value, int ind) {
         if (ind > this->len()) {
             cout << "ERROR" << endl;
         }
@@ -190,7 +190,7 @@ int main() {
     Node<int> n;
     n.data = 3;
     a.print();
-    a.change_elem(0, 6);
+    a.change_elem(6, 0);
     cout << a[1] << endl;
     //cout << n << endl;
     a.print();
