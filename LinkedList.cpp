@@ -6,6 +6,15 @@
 
 using namespace std;
 
+// void exit(
+//     int const status
+// );
+
+void error() {
+    cout << "YOU HAVE BROKEN THE PROGRAM";
+    exit(0);
+}
+
 template<typename T>
 struct Node {
     T data;
@@ -197,9 +206,9 @@ public:
 
     T operator[](int ind) {
         if ( head == NULL || ind < 0 ) {
-            throw runtime_error("index out of range");
+            error();
         }
-        else {
+        else if ( ind < this->len() ) {
             int k = 0;
             Node<T>* tmp = head;
             while ( k != ind ) {
@@ -208,7 +217,10 @@ public:
             }
             return tmp->data;
         }
-
+        else {
+            error();
+        }
+        return 0;
     }
 
 };
@@ -221,7 +233,7 @@ int main() {
 
 
     a.print();
-    cout << a[-1] << endl;
+    cout << a[3] << endl;
     a.print();
     return 0;
 }
