@@ -13,8 +13,16 @@ struct Node {
 
     friend ostream& operator<<(ostream& os, const Node<T>& obj) {
         os << obj.data;
-        //cout << this->data << endl;
         return os;
+    }
+    const Node<T> operator=(const Node<T> new_value) {
+        this->data = new_value.data;
+        cout << *this;
+        return *this;
+    }
+    const Node<T> operator=(T value) {
+        this->data = value;
+        return *this;
     }
 
 };
@@ -48,7 +56,6 @@ public:
         delete tmp;
     }
     void insert(T n, int ind) {
-        ind--;
         if (ind > this->len()) {
             cout << "ERROR" << endl;
         }
@@ -130,7 +137,33 @@ public:
         delete tmp;
     }
 
-    const Node<T> operator[](int ind) {
+    void erase(int ind) {
+        if (ind > this->len()) {
+            cout << "ERROR" << endl;
+        }
+        else if (ind == 0) {
+            head = head->next;
+        }
+        else {
+            Node<T>* tmp = head;
+            for (int i = 0; i < ind - 1; i++) {
+                tmp = tmp->next;
+            }
+            tmp->next = tmp->next->next;
+        }
+    }
+
+    void change_elem(int ind, T new_value) {
+        if (ind > this->len()) {
+            cout << "ERROR" << endl;
+        }
+        else {
+            this->erase(ind);
+            this->insert(new_value, ind);
+        }
+    }
+
+    Node<T> operator[](int ind) {
         if (head == NULL) {
             cout << "ERROR" << endl;
         }
@@ -144,6 +177,7 @@ public:
             return *tmp;
         }
     }
+
 };
 
 int main() {
@@ -151,9 +185,14 @@ int main() {
     a.append(1);
     a.append(2);
     a.append(3);
-    a.insert(5, 1);
+    a.insert(5, 0);
     a.print();
-    cout << a[2] << endl;
+    Node<int> n;
+    n.data = 3;
+    a.print();
+    a.change_elem(0, 6);
+    cout << a[1] << endl;
+    //cout << n << endl;
     a.print();
     return 0;
 }
