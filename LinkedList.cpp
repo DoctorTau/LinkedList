@@ -228,6 +228,17 @@ public:
         return 0;
     }
 
+    bool present(T a) {
+        Node<T>* tmp = head;
+        for (int i = 0; i < this->len(); i++) {
+            if (tmp->data == a) {
+                return true;
+            }
+            tmp = tmp->next;
+        }
+        return false;
+    }
+
 };
 
 int main() {
@@ -240,7 +251,8 @@ int main() {
     a.bubble_sort();
 
     a.print();
-    cout << a[3] << endl;
-    a.print();
+    //cout << a[3] << endl;
+    cout << a.present(7) << endl;
+    cout << a.present(10) << endl;
     return 0;
 }
