@@ -6,6 +6,15 @@
 
 using namespace std;
 
+// void exit(
+//     int const status
+// );
+
+void error() {
+    cout << "YOU HAVE BROKEN THE PROGRAM";
+    exit(0);
+}
+
 template<typename T>
 struct Node {
     T data;
@@ -168,6 +177,10 @@ public:
         }
     }
 
+    void change_elem_by_fedor(T new_value, int ind) {
+        Node<T>* tmp = new Node<T>;
+    }
+
     void bubble_sort() {
         if (head != NULL) {
             if (head->next != NULL) {
@@ -196,19 +209,23 @@ public:
         }
     }
 
-    const Node<T> operator[](int ind) {
-        if (head == NULL) {
-            cout << "ERROR" << endl;
+    T operator[](int ind) {
+        if (head == NULL || ind < 0) {
+            error();
         }
-        else {
+        else if (ind < this->len()) {
             int k = 0;
             Node<T>* tmp = head;
             while (k != ind) {
                 tmp = tmp->next;
                 k++;
             }
-            return *tmp;
+            return tmp->data;
         }
+        else {
+            error();
+        }
+        return 0;
     }
 
 };
@@ -220,12 +237,10 @@ int main() {
     a.append(8);
     int arr[3] = { 1, 2, 3 };
     a.append(arr);
-
+    a.bubble_sort();
 
     a.print();
-
-
-    a.bubble_sort();
+    cout << a[3] << endl;
     a.print();
     return 0;
 }
