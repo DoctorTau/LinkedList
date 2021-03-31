@@ -97,6 +97,25 @@ public:
             delete tmp; delete new_elem;
         }
     }
+
+    friend ostream& operator<<(ostream& os, const list<T>& obj) {
+        Node<T>* tmp = new Node<T>;
+        tmp = obj.head;
+        if (obj.head != NULL) {
+            while (tmp != obj.tail->next) {
+                os << tmp->data << ' ';
+                tmp = tmp->next;
+            }
+            os << endl;
+        }
+        else {
+            os << "EMPTY" << endl;
+        }
+        tmp = NULL;
+        delete tmp;
+        return os;
+    }
+
     void print()
     {
         Node<T>* tmp = new Node<T>;
@@ -261,7 +280,7 @@ int main() {
     a.append(arr);
     a.bubble_sort();
 
-    a.print();
+    cout << a;
     //cout << a[3] << endl;
     cout << a.present(7) << endl;
     cout << a.present(10) << endl;
