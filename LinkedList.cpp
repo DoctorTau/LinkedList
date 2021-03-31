@@ -239,6 +239,17 @@ public:
         return false;
     }
 
+    T find(T a) {
+        Node<T>* tmp = head;
+        for (int i = 0; i < this->len(); i++) {
+            if (tmp->data == a) {
+                return i;
+            }
+            tmp = tmp->next;
+        }
+        return this->len();
+    }
+
 };
 
 int main() {
@@ -254,5 +265,6 @@ int main() {
     //cout << a[3] << endl;
     cout << a.present(7) << endl;
     cout << a.present(10) << endl;
+    cout << a.find(6) << endl;
     return 0;
 }
