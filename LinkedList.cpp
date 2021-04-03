@@ -229,23 +229,20 @@ public:
     }
 
     void reverse() {
-        if (this->len() % 2 == 0) {
-            Node<T>* tmp_begin = head;
-            T temp_data = head->data;
-            head->data = tail->data;
-            tail->data = temp_data;
-            for (int i = 1; i < this->len() / 2; i++) {
-                tmp_begin = tmp_begin->next;
-                Node<T>* tmp_end = tmp_begin;
-                for (int j = 0; j < this->len() - i - (i + 1); j++) {
-                    tmp_end = tmp_end->next;
-                }
-                temp_data = tmp_begin->data;
-                tmp_begin->data = tmp_end->data;
-                tmp_end->data = temp_data;
-                cout << *this << endl;
-                //cout << *tmp_begin << ' ' << *tmp_end << ' ' << endl;
+        Node<T>* tmp_begin = head;
+        T temp_data = head->data;
+        head->data = tail->data;
+        tail->data = temp_data;
+        for (int i = 1; i < this->len() / 2; i++) {
+            tmp_begin = tmp_begin->next;
+            Node<T>* tmp_end = tmp_begin;
+            for (int j = 0; j < this->len() - i - (i + 1); j++) {
+                tmp_end = tmp_end->next;
             }
+            temp_data = tmp_begin->data;
+            tmp_begin->data = tmp_end->data;
+            tmp_end->data = temp_data;
+            //cout << *tmp_begin << ' ' << *tmp_end << ' ' << endl;
         }
     }
 
@@ -297,8 +294,8 @@ int main() {
     a.append(6);
     a.append(7);
     a.append(8);
-    int arr[5] = { 1, 2, 3, 5, 10 };
-    a.append(arr, 5);
+    int arr[4] = { 1, 2, 10, 5 };
+    a.append(arr, 4);
     cout << a << endl;
     a.bubble_sort();
     a.reverse();
