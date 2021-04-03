@@ -64,8 +64,8 @@ public:
         tmp = NULL;
         delete tmp;
     }
-    void append(T arr[]) {
-        for (int i = 0; i < sizeof(*arr) - 1; i++) {
+    void append(T arr[], int size) {
+        for (int i = 0; i < size; i++) {
             this->append(arr[i]);
         }
     }
@@ -228,6 +228,27 @@ public:
         }
     }
 
+    void reverse() {
+        if (this->len() % 2 == 0) {
+            Node<T>* tmp_begin = head;
+            T temp_data = head->data;
+            head->data = tail->data;
+            tail->data = temp_data;
+            for (int i = 1; i < this->len() / 2; i++) {
+                tmp_begin = tmp_begin->next;
+                Node<T>* tmp_end = tmp_begin;
+                for (int j = 0; j < this->len() - i - (i + 1); j++) {
+                    tmp_end = tmp_end->next;
+                }
+                temp_data = tmp_begin->data;
+                tmp_begin->data = tmp_end->data;
+                tmp_end->data = temp_data;
+                cout << *this << endl;
+                //cout << *tmp_begin << ' ' << *tmp_end << ' ' << endl;
+            }
+        }
+    }
+
     T operator[](int ind) {
         if (head == NULL || ind < 0) {
             error();
@@ -276,14 +297,17 @@ int main() {
     a.append(6);
     a.append(7);
     a.append(8);
-    int arr[3] = { 1, 2, 3 };
-    a.append(arr);
+    int arr[5] = { 1, 2, 3, 5, 10 };
+    a.append(arr, 5);
+    cout << a << endl;
     a.bubble_sort();
+    a.reverse();
+    //cout << 1;
 
     cout << a;
     //cout << a[3] << endl;
-    cout << a.present(7) << endl;
-    cout << a.present(10) << endl;
-    cout << a.find(6) << endl;
+    // cout << a.present(7) << endl;
+    // cout << a.present(10) << endl;
+    // cout << a.find(6) << endl;
     return 0;
 }
