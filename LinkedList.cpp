@@ -1,21 +1,18 @@
-#include <iostream>
 #include <stdlib.h>
-#include <fstream>
+
 #include <cctype>
+#include <fstream>
+#include <iostream>
 #include <string>
 
 using namespace std;
-
-// void exit(
-//     int const status
-// );
 
 void error() {
     cout << "YOU HAVE BROKEN THE PROGRAM";
     exit(0);
 }
 
-template<typename T>
+template <typename T>
 struct Node {
     T data;
     struct Node* next;
@@ -33,31 +30,59 @@ struct Node {
         this->data = value;
         return *this;
     }
-
 };
 
-template<typename T>
-class list {
-private:
-    Node<T>* head, * tail;
-public:
-    list() {
+template <typename T>
+class LinkedList {
+    class ListIterator {
+        LinkedList<T>& ls;
+        size_t ind;
+
+       public:
+        ListIterator(LinkedList& ls, size_t ind) : ls(ls), ind(ind) {}
+        T& operator*() { return ls[ind]; }
+
+        ListIterator& operator++() {
+            ind++;
+            return *this;
+        }
+
+        bool operator==(const ListIterator& other) const {
+            return ind == other.ind && ls == other.ls;
+        }
+        bool operator!=(const ListIterator& other) const {
+            return !(*this == other);
+        }
+    };
+
+   private:
+    Node<T>*head, *tail;
+
+   public:
+    LinkedList() {
         head = NULL;
         tail = NULL;
     }
-    void append(T n)
-    {
+
+    bool operator==(const LinkedList& other) {
+        if (len() != other.len()) return false;
+        for (size_t i = 0; i < len(); i++) {
+            if (this->operator[](i) != other[i]) return false;
+        }
+        return true;
+    }
+
+    bool operator!=(const LinkedList& other) { return !(*this == other); }
+
+    void append(T n) {
         Node<T>* tmp = new Node<T>;
         tmp->data = n;
         tmp->next = NULL;
 
-        if (head == NULL)
-        {
+        if (head == NULL) {
             head = tmp;
             tail = tmp;
-        }
-        else
-        {
+        } else {
             tail->next = tmp;
             tail = tail->next;
         }
@@ -93,12 +118,14 @@ public:
             new_elem->data = n;
             new_elem->next = tmp->next;
             tmp->next = new_elem;
-            tmp = NULL; new_elem = NULL;
-            delete tmp; delete new_elem;
+            tmp = NULL;
+            new_elem = NULL;
+            delete tmp;
+            delete new_elem;
         }
     }
 
-    friend ostream& operator<<(ostream& os, const list<T>& obj) {
+    friend ostream& operator<<(ostream& os, const LinkedList<T>& obj) {
         Node<T>* tmp = new Node<T>;
         tmp = obj.head;
         if (obj.head != NULL) {
@@ -107,8 +134,7 @@ public:
                 tmp = tmp->next;
             }
             os << endl;
-        }
-        else {
+        } else {
             os << "EMPTY" << endl;
         }
         tmp = NULL;
@@ -116,8 +142,7 @@ public:
         return os;
     }
 
-    void print()
-    {
+    void print() {
         Node<T>* tmp = new Node<T>;
         tmp = head;
         if (head != NULL) {
@@ -126,15 +151,15 @@ public:
                 tmp = tmp->next;
             }
             cout << endl;
-        }
-        else {
+        } else {
             cout << "EMPTY" << endl;
         }
         tmp = NULL;
         delete tmp;
     }
-    int len() {
-        int k = 1;
+
+    size_t len() const {
+        size_t k = 1;
         Node<T>* tmp = new Node<T>;
         tmp = head;
         if (tmp != NULL) {
@@ -143,22 +168,20 @@ public:
                 k++;
             }
             return (k);
-        }
-        else {
+        } else {
             return 0;
         }
         tmp = NULL;
         delete tmp;
     }
-    void pop()
-    {
+
+    void pop() {
         Node<T>* tmp = new Node<T>;
         tmp = head;
         if (head != NULL) {
             if (head->next == NULL) {
                 head = NULL;
-            }
-            else {
+            } else {
                 while ((tmp->next != tail) && (tmp != tail)) {
                     tmp = tmp->next;
                 }
@@ -173,11 +196,9 @@ public:
     void erase(int ind) {
         if (ind > this->len()) {
             cout << "ERROR" << endl;
-        }
-        else if (ind == 0) {
+        } else if (ind == 0) {
             head = head->next;
-        }
-        else {
+        } else {
             Node<T>* tmp = head;
             for (int i = 0; i < ind - 1; i++) {
                 tmp = tmp->next;
@@ -186,18 +207,26 @@ public:
         }
     }
 
-    void change_elem(T new_value, int ind) {
-        if (ind > this->len()) {
-            cout << "ERROR" << endl;
-        }
-        else {
-            this->erase(ind);
-            this->insert(new_value, ind);
+    void pop_front() { erase(0); }
+
+    template <typename predicate>
+    void erase_by_lambda(predicate lambda) {
+        for (int i = 0; i < this->len(); i++) {
+            auto value = this->operator[](i);
+            if (lambda(value)) {
+                erase(i);
+                i--;
+            }
         }
     }
 
-    void change_elem_by_fedor(T new_value, int ind) {
-        Node<T>* tmp = new Node<T>;
+    void change_elem(T new_value, int ind) {
+        if (ind > this->len()) {
+            cout << "ERROR" << endl;
+        } else {
+            this->erase(ind);
+            this->insert(new_value, ind);
+        }
     }
 
     void bubble_sort() {
@@ -222,8 +251,7 @@ public:
                     tmp = head;
                 }
             }
-        }
-        else {
+        } else {
             cout << "WHY ARE YOU DOING THIS?" << endl;
         }
     }
@@ -242,15 +270,28 @@ public:
             temp_data = tmp_begin->data;
             tmp_begin->data = tmp_end->data;
             tmp_end->data = temp_data;
-            //cout << *tmp_begin << ' ' << *tmp_end << ' ' << endl;
+            // cout << *tmp_begin << ' ' << *tmp_end << ' ' << endl;
         }
     }
 
-    T operator[](int ind) {
+    T& operator[](size_t ind) {
         if (head == NULL || ind < 0) {
             error();
         }
-        else if (ind < this->len()) {
+        if (ind > this->len()) error();
+        int k = 0;
+        Node<T>* tmp = head;
+        while (k != ind) {
+            tmp = tmp->next;
+            k++;
+        }
+        return tmp->data;
+    }
+
+    T operator[](size_t ind) const {
+        if (head == NULL || ind < 0) {
+            error();
+        } else if (ind < this->len()) {
             int k = 0;
             Node<T>* tmp = head;
             while (k != ind) {
@@ -258,8 +299,7 @@ public:
                 k++;
             }
             return tmp->data;
-        }
-        else {
+        } else {
             error();
         }
         return 0;
@@ -287,22 +327,26 @@ public:
         return this->len();
     }
 
+    using iterator = ListIterator;
+
+    iterator begin() { return iterator(*this, 0); }
+    iterator end() { return iterator(*this, len()); }
 };
 
 int main() {
-    list<int> a;
+    LinkedList<int> a;
     a.append(6);
     a.append(7);
     a.append(8);
-    int arr[4] = { 1, 2, 10, 5 };
+    int arr[4] = {1, 2, 10, 5};
     a.append(arr, 4);
     cout << a << endl;
     a.bubble_sort();
     a.reverse();
-    //cout << 1;
+    // cout << 1;
+    a.erase_by_lambda([](int& i) { return i % 2 == 0; });
+    for (auto it : a) cout << it << endl;
 
-    cout << a;
-    //cout << a[3] << endl;
     // cout << a.present(7) << endl;
     // cout << a.present(10) << endl;
     // cout << a.find(6) << endl;

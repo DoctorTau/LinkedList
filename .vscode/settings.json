@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "iostream": "cpp",
+        "*.tcc": "cpp",
+        "list": "cpp",
+        "array": "cpp",
+        "initializer_list": "cpp",
+        "limits": "cpp",
+        "stop_token": "cpp",
+        "type_traits": "cpp",
+        "*.inc": "cpp"
+    }
+}
